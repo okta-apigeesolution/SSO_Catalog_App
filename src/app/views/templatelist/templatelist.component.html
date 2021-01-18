@@ -1,0 +1,131 @@
+<div class="container-fluid">
+<div class="animated fadeIn">
+<div class="my-3 p-3 bg-white rounded shadow-sm templateLists">
+    <p *ngIf="info" class="info col-sm-12">{{infoMessage}}</p>
+    <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+    <h6 class="border-bottom border-gray pb-2 mb-0">Template List
+        <div id="custom-search-input" align="right" style="margin-top: -20px;">
+            <div class="input-group col-md-6">
+                <input type="text" [(ngModel)]="searchTemplate" class="search-query form-control" placeholder="Search Templates" />
+                <span class="input-group-btn">
+                    <button class="btn btn-danger" type="button">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </h6>
+    <div class="media text-muted pt-3" *ngFor="let template of templates | templateGrdFilter: {templateName: searchTemplate}; let i=index;">
+        <i class="fa fa-handshake-o" aria-hidden="true" (click)="editTemplateRow(template);"
+            aria-hidden="true" data-toggle="modal" data-target="#editTemplateAppRow"></i>
+        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">{{template.templateName}}
+                <span class="float-right">
+                    <i id="{{template.templateId}}" class="btn btn-primary btn-sm" (click)="viewTemplate(template.templateId);"
+                        class="fa fa-eye colorRed faIconStyle" aria-hidden="true"></i>
+                    <i id="{{template.templateId}}" class="btn btn-primary btn-sm" (click)="editTemplate(template.templateId);"
+                        class="fa fa-pencil colorRed faIconStyle" aria-hidden="true"></i>
+                    <i id="{{template.templateId}}" class="btn btn-primary btn-sm" (click)="setTemplate(template);"
+                        class="fa fa-trash colorRed faIconStyle" aria-hidden="true"
+                        data-toggle="modal" data-target="#deleteTemplateAppRow"></i>
+                </span>
+            </strong>
+            {{template.templateDescription}}
+        </p>
+    </div>
+    <small class="d-block text-right mt-3">
+        <a href="#"></a>
+    </small>
+</div>
+
+<div class="modal fade" id="deleteTemplateAppRow" tabindex="-1" role="dialog" aria-labelledby="deleteAppRowCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl my-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAppRowCenterTitle">Are you sure to delete - {{deleteTemplateName}} ?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">          
+                <div class="row">
+                    <div class="col-sm-12" align="right">
+                        <button type="button" class="btn btn-primary" (click)="deleteTemplate();" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">No</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editTemplateAppRow" tabindex="-1" role="dialog" aria-labelledby="editAppRowCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAppRowCenterTitle">Edit - {{templateName}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="reloadTemplates();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="info" class="info col-sm-12">{{infoMessage}}</p>
+                <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+                <form class="container" [formGroup]="templateForm" (ngSubmit)="onSubmit()" novalidate>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="templateName" text-align="center">Template Name:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="templateName" 
+                            name="templateName" formControlName="templateName" 
+                            placeholder="Max 20 characters Limit" maxlength="20"
+                            [ngClass]="{ 'is-invalid': submitted && f.templateName.errors }">
+                        </div>
+                        <div *ngIf="submitted && f.templateName.errors" class="invalid-feedback">
+                            <div *ngIf="f.templateName.errors.required">Template Name is required</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="templateDescription">Template Description:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="templateDescription" 
+                                        name="templateDescription" formControlName="templateDescription" 
+                                        placeholder="Max 200 characters Limit" maxlength="200"
+                                        [ngClass]="{ 'is-invalid': submitted && f.templateDescription.errors }">
+                        </div>
+                        <div *ngIf="submitted && f.templateDescription.errors" class="invalid-feedback">
+                            <div *ngIf="f.templateDescription.errors.required">Template Description is required</div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label" for="templateVisibility">Template Visibility:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="switch">
+                                    <input type="checkbox" id="templateVisibility" checked
+                                            name="templateVisibility" formControlName="templateVisibility">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="reset" class="btn btn-primary" (click)="onReset();">Reset</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" (click)="reloadTemplates();">
+                                    <span aria-hidden="true">Close</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>

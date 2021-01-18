@@ -1,0 +1,271 @@
+<div class="container-fluid">
+    <div class="animated fadeIn appListHeader">
+        <p *ngIf="info" class="info col-sm-12">{{infoMessage}}</p>
+        <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+      <!-- /.row-->
+      <h3 class="headerText">Application List
+        <div id="custom-search-input" align="right" style="margin-top: -30px;">
+            <div class="input-group col-md-6">
+                <input type="text" [(ngModel)]="searchApplication" class="search-query form-control" placeholder="Search Applications" />
+                <span class="input-group-btn">
+                    <button class="btn btn-danger" type="button">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+      </h3>
+      <div class="row">
+             <div class="col-sm-4" *ngFor="let application of applications | applicationGrdFilter: {applicationName: searchApplication}; let i=index;">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{application.applicationName}}</h5>
+                  <p class="card-text">{{application.applicationDescription}} description</p>
+                  <p>{{applicationCategoryItems[application.applicationCategory].itemName}}</p>
+                  <p><ngb-rating readonly="true" max="5" class="startStyle" rate="{{application.applicationRating}}"></ngb-rating></p>
+                  <i id="{{application.applicationId}}" class="fa fa-eye colorRed faIconStyle" aria-hidden="true"
+                     data-toggle="modal" data-target="#viewAppRow" (click)="viewApplication(application);"></i>
+                  <i id="{{application.applicationId}}" class="fa fa-pencil colorRed faIconStyle" aria-hidden="true" 
+                     data-toggle="modal" data-target="#editAppRow" (click)="editApplication(application);"></i>
+                  <i id="{{application.applicationId}}" class="fa fa-trash colorRed faIconStyle" 
+                     data-toggle="modal" data-target="#deleteAllicationRow" (click)="setApplication(application);"></i>
+                </div>
+              </div>
+            </div>
+      </div>
+      <!-- /.row-->
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAllicationRow" tabindex="-1" role="dialog" aria-labelledby="deleteAppRowCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl my-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAppRowCenterTitle">Are you sure to delete - {{deleteApplicationName}} ?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">          
+                <div class="row">
+                    <div class="col-sm-12" align="right">
+                        <button type="button" class="btn btn-primary" (click)="deleteApplication();" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">No</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewAppRow" tabindex="-1" role="dialog" aria-labelledby="editAppRowCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAppRowCenterTitle">View - {{vApplication.applicationName}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Application Name:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <b>{{vApplication.applicationName}}</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Application Description:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <b>{{vApplication.applicationDescription}}</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Application Visibility:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <b>{{vApplication.applicationVisibility}}</b>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Application Icon:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <img src="{{vApplication.applicationIcon}}" style="height:125px; width:125px;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Application URL:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <b>{{vApplication.applicationUrl}}</b>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Application Category:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <b>{{applicationCategory}}</b>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Application Rating:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <ngb-rating readonly="true" max="5" class="startStyle" 
+                                rate="{{vApplication.applicationRating}}"></ngb-rating>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">Close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<div class="modal fade" id="editAppRow" tabindex="-1" role="dialog" aria-labelledby="editAppRowCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAppRowCenterTitle">Edit - {{applicationEditName}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="reloadApplications();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p *ngIf="info" class="info col-sm-12">{{infoMessage}}</p>
+                    <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+        
+                    <form class="container" [formGroup]="applicationForm" (ngSubmit)="onSubmit()" novalidate>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label" for="applicationName">Application Name:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="applicationName" 
+                                            name="applicationName" formControlName="applicationName" 
+                                            placeholder="Max 50 characters Limit" maxlength="50"
+                                            [ngClass]="{ 'is-invalid': submitted && f.applicationName.errors }">
+                            </div>
+                            <div *ngIf="submitted && f.applicationName.errors" class="invalid-feedback">
+                                <div *ngIf="f.applicationName.errors.required">Application Name is required</div>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label" for="applicationDescription">Application Description:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="applicationDescription" 
+                                name="applicationDescription" formControlName="applicationDescription" 
+                                placeholder="Max 150 characters Limit" maxlength="150"
+                                [ngClass]="{ 'is-invalid': submitted && f.applicationDescription.errors }">
+                            </div>
+                            <div *ngIf="submitted && f.applicationDescription.errors" class="invalid-feedback">
+                                <div *ngIf="f.applicationDescription.errors.required">Application Description is required</div>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label" for="applicationVisibility">Application Visibility:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="switch">
+                                    <input type="checkbox" id="applicationVisibility" checked
+                                            name="applicationVisibility" formControlName="applicationVisibility">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label" for="applicationIcon">Application Icon:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="file" id="applicationIcon" 
+                                formControlName="applicationIcon" (change)="imageUpload($event);">
+                                <!-- [ngClass]="{ 'is-invalid': submitted && f.applicationIcon.errors }"> -->
+                            </div>
+                            <!-- <div *ngIf="submitted && f.applicationIcon.errors" class="invalid-feedback">
+                                <div *ngIf="f.applicationIcon.errors.required">Application Icon is required</div>
+                            </div> -->
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label" for="applicationUrl">Application URL:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="applicationUrl" 
+                                        name="applicationUrl" formControlName="applicationUrl" 
+                                        placeholder="Max 250 characters Limit" maxlength="250"
+                                        [ngClass]="{ 'is-invalid': submitted && f.applicationUrl.errors }">
+                            </div>
+                            <div *ngIf="submitted && f.applicationUrl.errors" class="invalid-feedback">
+                                <div *ngIf="f.applicationUrl.errors.required">Application URL is required</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label" for="applicationCategory">Application Category:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-control" formControlName="applicationCategory" required>
+                                    <option *ngFor="let item of applicationCategoryItems" value={{item.itemId}}>
+                                        {{item.itemName}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="f.submitted && f.applicationCategory.invalid" class="invalid-feedback">
+                                <div *ngIf="f.applicationCategory.errors.required">Application Category is required</div>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label" for="applicationRating">Application Rating:</label>
+                            </div>
+                            <div class="col-sm-9">
+                            <ngb-rating formControlName="applicationRating" max="5" class="startStyle"></ngb-rating>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="reset" class="btn btn-primary" (click)="onReset();">Reset</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" (click)="reloadApplications();">
+                                    <span aria-hidden="true">Close</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

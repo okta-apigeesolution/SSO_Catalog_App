@@ -1,0 +1,125 @@
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Create SSO Application</div>
+          <div class="card-body">
+            <div>
+              <p *ngIf="info" class="info col-sm-12">{{infoMessage}}</p>
+              <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+
+              <form class="container" [formGroup]="applicationForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="row">
+                  <div class="col-sm-3">
+                      <label class="control-label" for="applicationName">Application Name:</label>
+                  </div>
+                  <div class="col-sm-9">
+                      <input type="text" class="form-control" id="applicationName" 
+                                 name="applicationName" formControlName="applicationName" 
+                                 placeholder="Max 50 characters Limit" maxlength="50"
+                                 [ngClass]="{ 'is-invalid': submitted && f.applicationName.errors }">
+                  </div>
+                  <div *ngIf="submitted && f.applicationName.errors" class="invalid-feedback">
+                      <div *ngIf="f.applicationName.errors.required">Application Name is required</div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-3">
+                      <label class="control-label" for="applicationDescription">Application Description:</label>
+                  </div>
+                  <div class="col-sm-9">
+                      <input type="text" class="form-control" id="applicationDescription" 
+                      name="applicationDescription" formControlName="applicationDescription" 
+                      placeholder="Max 150 characters Limit" maxlength="150"
+                      [ngClass]="{ 'is-invalid': submitted && f.applicationDescription.errors }">
+                  </div>
+                  <div *ngIf="submitted && f.applicationDescription.errors" class="invalid-feedback">
+                      <div *ngIf="f.applicationDescription.errors.required">Application Description is required</div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-3">
+                      <label class="control-label" for="applicationVisibility">Application Visibility:</label>
+                  </div>
+                  <div class="col-sm-9">
+                      <label class="switch">
+                          <input type="checkbox" id="applicationVisibility" checked
+                                  name="applicationVisibility" formControlName="applicationVisibility">
+                          <span class="slider round"></span>
+                      </label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-3">
+                      <label class="control-label" for="applicationIcon">Application Icon:</label>
+                  </div>
+                  <div class="col-sm-9">
+                      <input type="file" id="applicationIcon" 
+                      formControlName="applicationIcon" (change)="imageUpload($event);"
+                      [ngClass]="{ 'is-invalid': submitted && f.applicationIcon.errors }">
+                  </div>
+                  <div *ngIf="submitted && f.applicationIcon.errors" class="invalid-feedback">
+                      <div *ngIf="f.applicationIcon.errors.required">Application Icon is required</div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-3">
+                      <label class="control-label" for="applicationUrl">Application URL:</label>
+                  </div>
+                  <div class="col-sm-9">
+                      <input type="text" class="form-control" id="applicationUrl" 
+                              name="applicationUrl" formControlName="applicationUrl" 
+                              placeholder="Max 250 characters Limit" maxlength="250"
+                              [ngClass]="{ 'is-invalid': submitted && f.applicationUrl.errors }">
+                  </div>
+                  <div *ngIf="submitted && f.applicationUrl.errors" class="invalid-feedback">
+                      <div *ngIf="f.applicationUrl.errors.required">Application URL is required</div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label" for="applicationCategory">Application Category:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <select class="form-control" formControlName="applicationCategory" required>
+                            <option *ngFor="let item of applicationCategoryItems" value={{item.itemId}}>
+                                {{item.itemName}}
+                            </option>
+                          </select>
+                    </div>
+                    <div *ngIf="f.submitted && f.applicationCategory.invalid" class="invalid-feedback">
+                        <div *ngIf="f.applicationCategory.errors.required">Application Category is required</div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label" for="applicationRating">Application Rating:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <ngb-rating formControlName="applicationRating" max="5" class="startStyle"></ngb-rating>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="reset" class="btn btn-primary" (click)="onReset();">Reset</button>
+                    </div>
+                  </div>
+              </form>
+             </div>
+            <br/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row-->
+  </div>
+</div>

@@ -1,0 +1,256 @@
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card" *ngIf="isTemplateDataLoaded">
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading card-header">
+                  <h5 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#acc_{{template.templateId}}">{{template.templateName}}</a>
+                  </h5>
+                </div>
+                <div id="acc_{{template.templateId}}" class="card-body panel-collapse">
+                  <div class="panel-body">
+                      <div class="tab-layout">
+                          <ngb-tabset>
+                              <ngb-tab *ngFor="let tab of template.tabs" id="{{tab.tabId}}">
+                                  <ng-template ngbTabTitle id="tab.tabId">
+                                    {{tab.tabName}}
+                                    <span class="fa fa-edit" id="{{tab.tabId}}" (click)="editTab(tab);" aria-hidden="true" data-toggle="modal" data-target="#editTabAppRow" style="color: #05b6f5; margin-left: 10px;"></span>
+                                  </ng-template>
+                                  <ng-template ngbTabContent>
+                                      <div class="slider">
+                                        <div class="slide" *ngFor="let application of tab.applications">
+                                          <a href="{{application.applicationUrl}}" target="_blank">
+                                            <img src="{{application.applicationIcon}}" alt="{{application.applicationName}}">
+                                            <p><input type="checkbox" id="{{application.applicationId}}" (change)="pushAppDeleteArray(application.applicationId, tab);"> {{application.applicationName}}</p></a>
+                                        </div>
+                                        <div>
+                                            <span class="fa fa-plus-circle iconAlign" id="{tab.tabId}}" (click)="loadApplications();addApplicaions(tab);"
+                                                  aria-hidden="true" data-toggle="modal" data-target="#showApplicationsRow" style="color: #e12503; margin-left: 10px;"></span>
+                                        </div>
+                                      </div>
+                                  </ng-template>
+                              </ngb-tab>
+                              <ngb-tab>
+                                <ng-template ngbTabTitle>
+                                  <i class="fa fa-plus" aria-hidden="true" data-toggle="modal" data-target="#editAppRow" style="color: #05b6f5;" (click)="resetTabForm();"></i>
+                                </ng-template>
+                                <ng-template ngbTabContent>
+                                  <span *ngIf="enableApplicationIcon" class="fa fa-plus-circle iconAlign"></span>
+                                </ng-template>
+                            </ngb-tab>
+                          </ngb-tabset>
+                      </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary" (click)="goBack()" style="margin-left:10px;">Back</button>
+                <button type="button" class="btn btn-primary" style="margin-left:10px;" (click)="setApplicationsAndMessage();"
+                aria-hidden="true" data-toggle="modal" data-target="#deleteaPPLICATIONAppRow">Remove</button>
+            </div>
+            <br/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<div class="modal fade" id="deleteaPPLICATIONAppRow" tabindex="-1" role="dialog" aria-labelledby="deleteAppRowCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl my-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAppRowCenterTitle">{{deletedApplicationName}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">          
+                <div class="row">
+                    <div class="col-sm-12" align="right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="enableOKButton">OK</button>
+                        <button type="button" class="btn btn-primary" (click)="removeApplicaions();" data-dismiss="modal" *ngIf="disableYESNOButton">Yes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" *ngIf="disableYESNOButton">
+                            <span aria-hidden="true">No</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editAppRow" tabindex="-1" role="dialog" aria-labelledby="editAppRowCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAppRowCenterTitle">Add new tab</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="reloadTab();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="info" class="info col-sm-12">{{infoMessage}}</p>
+                <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+                <form class="container" [formGroup]="tabForm" (ngSubmit)="onSubmit()" novalidate>
+                    <div class="row">
+                      <div class="col-sm-3">
+                          <label class="control-label" for="tabName" text-align="center">Tab Name:</label>
+                      </div>
+                      <div class="col-sm-9">
+                          <input type="text" class="form-control" id="tabName" 
+                          name="tabName" formControlName="tabName" 
+                          placeholder="Max 20 characters Limit" maxlength="20"
+                          [ngClass]="{ 'is-invalid': submitted && f.tabName.errors }">
+                      </div>
+                      <div *ngIf="submitted && f.tabName.errors" class="invalid-feedback">
+                          <div *ngIf="f.tabName.errors.required">Tab Name is required</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="tabDescription">Tab Description:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="tabDescription" 
+                                       name="tabDescription" formControlName="tabDescription" 
+                                       placeholder="Max 150 characters Limit" maxlength="150"
+                                       [ngClass]="{ 'is-invalid': submitted && f.tabDescription.errors }">
+                        </div>
+                        <div *ngIf="submitted && f.tabDescription.errors" class="invalid-feedback">
+                            <div *ngIf="f.tabDescription.errors.required">Tab Description is required</div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-3"></div>
+                          <div class="col-sm-9">
+                              <button type="submit" class="btn btn-primary">Save</button>
+                              <button type="reset" class="btn btn-primary" (click)="onReset();">Reset</button>
+                              <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" (click)="reloadTab();">
+                                <span aria-hidden="true">Close</span>
+                            </button>
+                          </div>
+                        </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editTabAppRow" tabindex="-1" role="dialog" aria-labelledby="editAppRowCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAppRowCenterTitle">Edit - {{tabEditName}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="reloadTab();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="info" class="info col-sm-12">{{infoMessage}}</p>
+                <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+                <form class="container" [formGroup]="tabForm" (ngSubmit)="onSubmit()" novalidate>
+                    <div class="row">
+                      <div class="col-sm-3">
+                          <label class="control-label" for="tabName" text-align="center">Tab Name:</label>
+                      </div>
+                      <div class="col-sm-9">
+                          <input type="text" class="form-control" id="tabName" 
+                          name="tabName" formControlName="tabName" 
+                          placeholder="Max 20 characters Limit" maxlength="20"
+                          [ngClass]="{ 'is-invalid': submitted && f.tabName.errors }">
+                      </div>
+                      <div *ngIf="submitted && f.tabName.errors" class="invalid-feedback">
+                          <div *ngIf="f.tabName.errors.required">Tab Name is required</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="tabDescription">Tab Description:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="tabDescription" 
+                                       name="tabDescription" formControlName="tabDescription" 
+                                       placeholder="Max 150 characters Limit" maxlength="150"
+                                       [ngClass]="{ 'is-invalid': submitted && f.tabDescription.errors }">
+                        </div>
+                        <div *ngIf="submitted && f.tabDescription.errors" class="invalid-feedback">
+                            <div *ngIf="f.tabDescription.errors.required">Tab Description is required</div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-3"></div>
+                          <div class="col-sm-9">
+                              <button type="submit" class="btn btn-primary">Update</button>
+                              <button type="reset" class="btn btn-primary" (click)="onReset();">Reset</button>
+                              <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" (click)="reloadTab();">
+                                <span aria-hidden="true">Close</span>
+                            </button>
+                          </div>
+                        </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="showApplicationsRow" tabindex="-1" role="dialog" aria-labelledby="editAppRowCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content my-modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAppRowCenterTitle">Applications List</h4>
+                <div id="custom-search-input" align="right">
+                    <div class="input-group">
+                        <select class="form-control" (change)='refreshApplications($event.target.value);'>
+                            <option *ngFor="let item of applicationCategoryItems" value={{item.itemId}}>
+                                {{item.itemName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="input-group col-md-6">
+                    <input type="text" (keyup)="refreshApplications($event.target.value);" class="search-query form-control" placeholder="Search Applications" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger" type="button">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </span>
+                </div> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="reloadTab();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding-top: 0px;">
+                <p *ngIf="info" class="info col-sm-12">{{infoMessage}}</p>
+                <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+                <table class="table table-striped" >
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Application Name</th>
+                            <th>Application Description</th>
+                            <th>Application Categeory</th>
+                            <th>Application Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let application of applications">
+                            <td><input type="checkbox" id="{{application.applicationId}}" (change)="pushArray(application.applicationId);"/></td>
+                            <td>{{application.applicationName}}</td>
+                            <td>{{application.applicationDescription}}</td>
+                            <td>{{applicationCategoryItems[application.applicationCategory].itemName}}</td>
+                            <td><ngb-rating readonly="true" max="5" class="startStyle" rate="{{application.applicationRating}}"></ngb-rating></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-primary" (click)="addApps();">Add</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" (click)="reloadTab();">
+                    <span aria-hidden="true">Close</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

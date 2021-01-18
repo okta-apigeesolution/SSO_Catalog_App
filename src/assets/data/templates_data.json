@@ -1,0 +1,134 @@
+[{
+    "templateId": "1",
+    "templateName": "Enterprise Apps",
+    "templateDescription": "Enterprise Apps Desc",
+    "templateVisibility": true,
+    "tabs": [{
+      "tabId": "1",
+      "tabName": "Enterprise Tab",
+      "tabDescription": "Enterprise Tab Desc",
+      "tabVisibility": true,
+      "applications": [{
+        "appId": "1",
+        "appName": "Google",
+        "appDescription": "Google App Description",
+        "appVisibility": true,
+        "applicationIcon": "assets/google.png"
+      }]
+    }]
+  }, {
+    "templateId": "2",
+    "templateName": "Finance Apps",
+    "templateDescription": "Finance Apps Desc",
+    "templateVisibility": true,
+    "tabs": [{
+        "tabId": "1",
+        "tabName": "Finance Tab",
+        "tabDescription": "Finance Tab Desc",
+        "tabVisibility": true,
+        "applications": [{
+            "appId": "1",
+            "appName": "Google",
+            "appDescription": "Google App Description",
+            "appVisibility": true,
+            "applicationIcon": "assets/google.png"
+          },
+          {
+            "appId": "2",
+            "appName": "Office",
+            "appDescription": "Microsoft outlook App Description",
+            "appVisibility": true,
+            "applicationIcon": "assets/office.png"
+          }
+        ]
+      },
+      {
+        "tabId": "2",
+        "tabName": "Legal Tab",
+        "tabDescription": "Legal Tab Desc",
+        "tabVisibility": true,
+        "applications": [{
+          "appId": "1",
+          "appName": "Google",
+          "appDescription": "Google App Description",
+          "appVisibility": true,
+          "applicationIcon": "assets/google.png"
+        }]
+      }
+    ]
+  }, {
+    "templateId": "3",
+    "templateName": "Legal Apps",
+    "templateDescription": "Legal Apps Desc",
+    "templateVisibility": true,
+    "tabs": [{
+        "tabId": "1",
+        "tabName": "Finance Tab",
+        "tabDescription": "Finance Tab Desc",
+        "tabVisibility": true,
+        "applications": [{
+            "appId": "1",
+            "appName": "Google",
+            "appDescription": "Google App Description",
+            "appVisibility": true,
+            "applicationIcon": "assets/google.png"
+          },
+          {
+            "appId": "2",
+            "appName": "Office",
+            "appDescription": "Microsoft outlook App Description",
+            "appVisibility": true,
+            "applicationIcon": "assets/office.png"
+          }
+        ]
+      },
+      {
+        "tabId": "2",
+        "tabName": "Enterprise Tab",
+        "tabDescription": "Finance Tab Desc",
+        "tabVisibility": true,
+        "applications": [{
+          "appId": "1",
+          "appName": "Google",
+          "appDescription": "Google App Description",
+          "appVisibility": true,
+          "applicationIcon": "assets/google.png"
+        }]
+      },
+      {
+        "tabId": "3",
+        "tabName": "Legal Tab",
+        "tabDescription": "Legal Tab Desc",
+        "tabVisibility": true,
+        "applications": [{
+            "appId": "1",
+            "appName": "Google",
+            "appDescription": "Google App Description",
+            "appVisibility": true,
+            "applicationIcon": "assets/google.png"
+          },
+          {
+            "appId": "2",
+            "appName": "Office",
+            "appDescription": "Microsoft outlook App Description",
+            "appVisibility": true,
+            "applicationIcon": "assets/office.png"
+          },
+          {
+            "appId": "3",
+            "appName": "Google",
+            "appDescription": "Microsoft outlook App Description",
+            "appVisibility": true,
+            "applicationIcon": "assets/google.png"
+          },
+          {
+            "appId": "4",
+            "appName": "Office",
+            "appDescription": "Microsoft outlook App Description",
+            "appVisibility": true,
+            "applicationIcon": "assets/office.png"
+          }
+        ]
+      }
+    ]
+  }]

@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Create Template</div>
+          <div class="card-body">
+            <div>
+                <p *ngIf="info" class="info col-sm-12">{{infoMessage}}</p>
+                <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+
+                <form class="container" [formGroup]="templateForm" (ngSubmit)="onSubmit()" novalidate>
+                  <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label" for="templateName" text-align="center">Template Name:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="templateName" 
+                        name="templateName" formControlName="templateName" 
+                        placeholder="Max 150 characters Limit" maxlength="150"
+                        [ngClass]="{ 'is-invalid': submitted && f.templateName.errors }">
+                    </div>
+                    <div *ngIf="submitted && f.templateName.errors" class="invalid-feedback">
+                        <div *ngIf="f.templateName.errors.required">Template Name is required</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-sm-3">
+                          <label class="control-label" for="templateDescription">Template Description:</label>
+                      </div>
+                      <div class="col-sm-9">
+                          <input type="text" class="form-control" id="templateDescription" 
+                                     name="templateDescription" formControlName="templateDescription" 
+                                     placeholder="Max 200 characters Limit" maxlength="200"
+                                     [ngClass]="{ 'is-invalid': submitted && f.templateDescription.errors }">
+                      </div>
+                      <div *ngIf="submitted && f.templateDescription.errors" class="invalid-feedback">
+                          <div *ngIf="f.templateDescription.errors.required">Template Description is required</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="templateVisibility">Template Visibility:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <label class="switch">
+                                <input type="checkbox" id="templateVisibility" checked
+                                       name="templateVisibility" formControlName="templateVisibility">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-9">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="reset" class="btn btn-primary" (click)="onReset();">Reset</button>
+                        </div>
+                      </div>
+                </form>
+            </div>
+            <br/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row-->
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="animated fadeIn">
+      <!-- /.row-->
+      <div class="row">
+        
+        <div class="col-md-12">
+          <div class="card">
+            <p *ngIf="error" class="error col-sm-12">{{errorMessage}}</p>
+              <div class="panel-group" id="accordion" >
+                <div style="display: none;" class="btn btn-primary openall">Expand All</div>
+                <div style="display: none;" class="btn btn-primary closeall">Collapse All</div>
+                <div style="display: none;" id="custom-search-input" align="right">
+                    <div class="input-group">
+                        <input type="text" [(ngModel)]="searchTemplate" class="search-query form-control" placeholder="Search templates" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger" type="button">
+                                <span class="fa fa-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>   
+                <div class="panel panel-default" *ngFor="let template of templates | templateGrdFilter: {templateName: searchTemplate}; let i=index;">
+                  <div class="panel-heading card-header">
+                    <h5 class="panel-title">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#acc_{{template.templateId}}">{{template.templateName}}</a>
+                    </h5>
+                  </div>
+                  <div id="acc_{{template.templateId}}" class="card-body">
+                    <div class="panel-body">
+                        <div class="tab-layout">
+                            <ngb-tabset>
+                                <ngb-tab *ngFor="let tab of template.tabs" title="{{tab.tabName}}">
+                                    <ng-template ngbTabContent>
+                                        <div class="slider">
+                                                <div class="slide" *ngFor="let application of tab.applications">
+                                                  <a href="{{application.applicationUrl}}" target="_blank">
+                                                    <img src="{{application.applicationIcon}}" alt="{{application.applicationName}}">
+                                                    <p>{{application.applicationName}}</p></a>
+                                                </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              <br/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row-->
+    </div>
+  </div>

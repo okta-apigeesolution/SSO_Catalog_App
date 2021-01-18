@@ -1,0 +1,147 @@
+
+.slider {
+    display: flex;
+    padding-left: 2px;  
+    flex-wrap: wrap;
+}
+
+.slider .slide img {
+    width: 175px;
+    height: 175px;
+    display: block;
+    padding: 5px;
+    margin: 4px;
+    border: 1px solid #c2c2c2;
+    background-color: #e4e5e6;
+}
+
+.slider .slide p {
+    text-align: center;
+}
+
+div.tab-content {
+    display: block !important;
+    border: 1px solid #dee2e6 !important;
+    border-top: none !important;
+}
+
+.btn-primary {
+    margin-top: 0px !important;
+}
+
+.card-header {
+    margin-bottom: 0 !important;
+    color: white !important;
+    background-color: #c2c2c2 !important;
+    border-bottom: 1px solid #c2c2c2 !important;
+}
+
+.panel {
+    border: 0px solid #0057c6 !important;
+}
+
+.fa {
+    color: #c2c2c2;
+  }
+  
+  .startStyle {
+    color: #e12503;
+    font-size: 30px;
+  }
+
+  .iconAlign {
+    font-size: 120px;
+    color: #e12503;
+    padding-top: 25px;
+  }
+
+  .iconAlign:hover {
+    cursor: pointer;
+  }
+
+  .info {
+    color: green;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .error {
+    color: red;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .btn-primary {
+      margin-right: 20px;
+  }
+
+  .row {
+    margin-bottom: 10px;
+  }
+  
+  .table th {
+    padding: 0.5rem;
+    vertical-align: baseline;
+    border-top: 1px solid #c8ced3;
+}
+
+.table td {
+    padding: 0px;
+    padding-left: 10px;
+    vertical-align: middle;
+    border-top: 1px solid #c8ced3;
+}
+
+thead {
+    color: #333;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 0.5rem;
+}
+
+//Search related styles
+
+#custom-search-input {
+    margin:0;
+    margin-top: 0px;
+    padding: 0;
+    margin-bottom: 0px;
+    margin-left: 20px;
+}
+
+#custom-search-input .search-query {
+    padding-right: 4px \9;
+    margin-bottom: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#custom-search-input button {
+    border: 0;
+    background: none;
+    /** belows styles are working good */
+    padding: 5px 0px;
+    margin-top: 2px;
+    position: relative;
+    left: -28px;
+    /* IE7-8 doesn't have border-radius, so don't indent the padding */
+    margin-bottom: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+.slide p {
+    color: #e12503;
+    width: 185px;
+}
+
+.my-modal {
+    max-width: 555px;
+}
+
+.my-modal-content {
+    width: 110%;
+}
