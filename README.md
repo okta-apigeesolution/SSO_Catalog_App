@@ -1,9 +1,9 @@
-# SennovateApp
+# Softlogue-IAM App
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
 
 ## Production ready need to follow below commands
-ng build --prod --base-href=sennovate
+ng build --prod 
 
 Goto proxy.config.json file and change the port where are the services running.
 
